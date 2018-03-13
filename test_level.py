@@ -14,8 +14,8 @@ screen = pygame.display.set_mode((main.screen_width, main.screen_height))
 
 clock =pygame.time.Clock()
 
-player1 = main.Player(20, 10, 1)
-player2 = main.Player(940, 10, 2)
+player1 = main.Player(30, 30, 1)
+player2 = main.Player(900, 30, 2)
 
 wall = main.Wall(100, 100, 20, 120)
 wall2 = main.Wall(500, 30, 20, 140)
@@ -25,7 +25,7 @@ wall4 = main.Wall(275, 375, 20, 75)
 laser = main.Laser(480, 0, 2, 600, main.RED)
 splitter = main.Splitter(400, 275)
 splitter = main.Splitter(600, 120)
-top_border = main.Wall(0, 0, main.screen_width, 1, main.BLACK)
+top_border = main. Wall(0, 0, main.screen_width, 1, main.BLACK)
 bottom_border = main.Wall(0, main.screen_height, main.screen_width, 1, main.BLACK)
 left_border = main.Wall(0, 0, 1, main.screen_height, main.BLACK)
 right_border = main.Wall(main.screen_width, 0, 10, main.screen_height, main.BLACK)
@@ -56,7 +56,7 @@ while running:
             elif event.key == pygame.K_s:
                 pressed_s = True
             if event.key == pygame.K_SPACE:
-                fire = main.Fire(player1.rect.x + 10, player1.rect.y, main.vel[0], 0, 1)
+                fire = main.Fire(player1.rect.x + 30, player1.rect.y + 30, main.vel[0], 0, 1)
                 pew.play()
 
             if event.key == pygame.K_LEFT:
@@ -68,7 +68,7 @@ while running:
             elif event.key == pygame.K_DOWN:
                 pressed_down = True
             if event.key == pygame.K_RCTRL:
-                fire = main.Fire(player2.rect.x - 10, player2.rect.y, -main.vel[0], 0, 2)
+                fire = main.Fire(player2.rect.x - 10, player2.rect.y + 20, -main.vel[0], 0, 2)
                 pew.play()
 
         elif event.type == pygame.KEYUP:
@@ -121,8 +121,8 @@ while running:
         fire.hitplayer()
         pygame.draw.rect(screen, fire.color, fire.rect, 1)
 
-    pygame.draw.rect(screen, main.RED, player1.rect, 1)
-    pygame.draw.rect(screen, main.BLUE, player2.rect, 1)
+    screen.blit(player1.image, (player1.rect.x, player1.rect.y))
+    screen.blit(player2.image, (player2.rect.x, player2.rect.y))
     pygame.display.flip()
 
     clock.tick(40)

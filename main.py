@@ -12,7 +12,7 @@ GREEN = (51, 232, 27)
 
 walls = []
 fires = []
-vel = [13, 13]
+vel = [20, 20]
 players = []
 
 screen_width = 960
@@ -24,10 +24,12 @@ class Player():
 
     def __init__(self, x, y, player):
 
-        players.append(self)
+        self.player = player
 
-        self.image = pygame.Surface([15, 15])
-        self.image.fill(WHITE)
+        if self.player == 1:
+            self.image = pygame.image.load("cowboixcropped.png")
+        elif self.player == 2:
+            self.image = pygame.image.load("aliencropped.png")
 
         self.rect = self.image.get_rect()
         self.rect.y = y
@@ -38,7 +40,7 @@ class Player():
         self.change_x = 0
         self.change_y = 0
 
-        self.player = player
+        players.append(self)
 
 
     def move(self, dx, dy):
@@ -70,24 +72,15 @@ class Wall():
 
         self.color = color
 
-    def passable(self):
-        return False
-
 class Laser(Wall):
 
     def __init__(self, x, y, width, height, color=GREEN ):
         Wall.__init__(self, x, y, width, height, color= GREEN)
 
-    def passable(self):
-        return True
-
 class Splitter(Wall):
 
     def __init__(self, x, y, width=30, height=30, color=GRAY):
         Wall.__init__(self, x, y, width, height, color=GRAY)
-
-    def passable(self):
-        return False
 
     def split(self, dx, dy):
         if dx > 0:
@@ -99,20 +92,18 @@ class Splitter(Wall):
             Fire(self.rect.x - 35, self.rect.y, -vel[0], 0, 2)
             Fire(self.rect.x- 35, self.rect.y, -vel[0], -vel[1], 2)
 
+
 class Fire(pygame.sprite.Sprite):
 
     def __init__(self, x, y, dx, dy, player):
-        fires.append(self)
 
-        fires.append(self)
-        self.image = pygame.Surface([12, 12])
+        self.image = pygame.Surface([15, 15])
 
         self.player = player
         if player == 1:
             self.color = RED
         else:
             self.color = BLUE
-        self.image.fill(self.color)
 
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -120,6 +111,8 @@ class Fire(pygame.sprite.Sprite):
 
         self.change_x = dx
         self.change_y = dy
+
+        fires.append(self)
 
     def hitwall(self):
         for wall in walls:
@@ -156,8 +149,6 @@ class Fire(pygame.sprite.Sprite):
 
 
     def move(self):
-
-            pygame.draw.rect(screen, self.color, self.rect, 2)
 
             self.rect.x += self.change_x
             self.rect.y += self.change_y
